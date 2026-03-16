@@ -1,4 +1,4 @@
-from flask import Flask , request 
+from flask import Flask , request
 
 app = Flask(__name__)
 
@@ -34,8 +34,19 @@ def handel_param3():
         email = request.args['email']
         name = request.args['name']
         return f'HI {name} your email is {email}'
+    else:
+        return 'some params are missing fix the code first'
 
-
-
+@app.route('/reqt', methods=['GET','[POST]','[DELETE]'])
+def some():
+    if request.method == 'GET':
+        return 'this is a get request\n' , 201 # returning status code
+    elif request.method == 'POST':
+        return 'this is a post request\n' , 
+    elif request.method == 'DELETE':
+        return 'this is a delete request\n'
+    else:
+        return 'you will never be able to see me\n'
+    
 if __name__  == '__main__':
     app.run(host='127.0.0.1',port=9892,debug=True)
