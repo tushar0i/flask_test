@@ -1,4 +1,4 @@
-from flask import Flask , request
+from flask import Flask , request , make_response
 
 app = Flask(__name__)
 
@@ -40,13 +40,56 @@ def handel_param3():
 @app.route('/reqt', methods=['GET','[POST]','[DELETE]'])
 def some():
     if request.method == 'GET':
-        return 'this is a get request\n' , 201 # returning status code
+        return 'this is a get request\n' , 200 # returning status code
     elif request.method == 'POST':
-        return 'this is a post request\n' , 
+        return 'this is a post request\n' , 201 # created 
     elif request.method == 'DELETE':
         return 'this is a delete request\n'
     else:
         return 'you will never be able to see me\n'
     
+
+# status codes
+''' 
+2xx success
+200 OK
+201 created 
+202 accepted
+204 no content
+206 partial content 
+
+3xx redirection 
+301 moves permanently 
+302 found(previously move temporarily)
+304 not modified 
+
+4xx client error 
+400 bad request 
+401 unauthorized 
+403 forbidden
+404 not found 
+408 request timeout
+429 too many request
+
+5xx server errors 
+500 Internal Server error 
+501 not implimented 
+502 bad gateway
+503 service unavailable
+504 gateway timeout
+'''
+@app.route('/hello',methods=['GET','[POST]'])
+def another():
+    if request.method == 'GET':
+        if 'name' in request.args.keys():
+            name = request.args['name']
+            respones =  make_response(f'hello {name} this is a get request')
+            respones.status_code = 200
+            respones.headers['content-type'] = 'text/plain'
+            return respones
+    elif request.method == 'POST':
+        return 'nothing to post here'
+
+
 if __name__  == '__main__':
     app.run(host='127.0.0.1',port=9892,debug=True)
