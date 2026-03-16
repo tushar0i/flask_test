@@ -1,0 +1,40 @@
+# Byte-code files
+*.pyc
+__pycache__/
+*.pyd
+*.pyo
+
+# Virtual environment
+# Change "venv" to the name of your virtual environment folder if it's different.
+.venv/
+venv/
+ENV/
+bin/
+include/
+lib/
+lib64/
+
+# Flask instance folder
+# Stores development configuration and instance-specific data
+instance/
+
+# Secret files
+# Store sensitive information like API keys or database passwords here.
+.env
+.flaskenv
+
+# Editor and IDE-specific files
+.idea/  # For PyCharm/IntelliJ
+.vscode/ # For VS Code
+.DS_Store # For macOS
+*.swp # For Vim
+
+# Test and coverage reports
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Built distributions
+dist/
+build/
+*.egg-info/
