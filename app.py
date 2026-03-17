@@ -1,6 +1,6 @@
-from flask import Flask , request , make_response
+from flask import Flask , request , make_response , render_template
 
-app = Flask(__name__)
+app = Flask(__name__,template_folder='templates')
 
 @app.route('/')
 def home():
@@ -90,6 +90,13 @@ def another():
     elif request.method == 'POST':
         return 'nothing to post here'
 
+
+@app.route('/index')
+def index():
+    myname = 'random person'
+    mybalance = 200+980
+    itemlist = ['one','two','three','four','five','six']
+    return render_template('index.html',name=myname ,balance=mybalance,items=itemlist)
 
 if __name__  == '__main__':
     app.run(host='127.0.0.1',port=9892,debug=True)

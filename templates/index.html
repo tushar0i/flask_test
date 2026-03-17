@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello</title>
+</head>
+
+<body>
+    <h1>HELLO {{name}}</h1>
+    <div>
+        <ul>
+            {% for item in items %}
+            <li {% if item == 'two' %} style="color: red;" {% endif %}> {{item}} </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        your current balance is {{balance}}
+    </div>
+
+</body>
+
+</html>
