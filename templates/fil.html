@@ -21,9 +21,9 @@
     <div>
         {{some_text | replace('l','L')}}
     </div>
+    <!-- custom filters  -->
     <div>
         {{some_text | reverse_string}} 
-        <!-- custom filters  -->
     </div>
     <div>
         {{some_text | repate}}
@@ -37,8 +37,8 @@
     <div>
         {{some_text}}
     </div>
-    <div>
-        {{some_text}}
-    </div>
+
+
+    <a href="{{ url_for('other') }}">Other</a>
 </div>
 {%endblock%}

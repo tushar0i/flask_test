@@ -1,4 +1,4 @@
-from flask import Flask , request , make_response , render_template
+from flask import Flask , request , make_response , render_template , redirect ,url_for
 
 app = Flask(__name__,template_folder='templates')
 
@@ -116,6 +116,14 @@ def repate(s , times=2):
 def alternate_case(s):
     out = ''.join([c.upper() if i % 2 == 0 else c.lower() for i,c in enumerate(s)])
     return out
+
+@app.route('/a_dynamic_url')
+def other():
+    return render_template('other.html')
+
+@app.route('/redirect_endpoint')
+def redirect_endpoint():
+    return redirect(url_for('other'))
 
 if __name__  == '__main__':
     app.run(host='127.0.0.1',port=9892,debug=True)
