@@ -1,0 +1,44 @@
+{%extends "base.html"%}
+{%block title%}Filters{%endblock%}
+{%block content%}
+<div>
+    <h2>FILTERS</h2>
+    <div>
+        {{some_text}}
+    </div>
+    <div>
+        {{some_text | upper}}
+    </div>
+    <div>
+        {{some_text | lower}}
+    </div>
+    <div>
+        {{some_text | length}}
+    </div>
+    <div>
+        {{some_text | title}}
+    </div>
+    <div>
+        {{some_text | replace('l','L')}}
+    </div>
+    <div>
+        {{some_text | reverse_string}} 
+        <!-- custom filters  -->
+    </div>
+    <div>
+        {{some_text | repate}}
+    </div>
+    <div>
+        {{some_text | repate(10)}}
+    </div>
+    <div>
+        {{some_text | alternate_case}}
+    </div>
+    <div>
+        {{some_text}}
+    </div>
+    <div>
+        {{some_text}}
+    </div>
+</div>
+{%endblock%}

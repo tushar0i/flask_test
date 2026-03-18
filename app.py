@@ -98,5 +98,24 @@ def index():
     itemlist = ['one','two','three','four','five','six']
     return render_template('index.html',name=myname ,balance=mybalance,items=itemlist)
 
+@app.route('/filters')
+def filter():
+    text = 'Hello Flask!'
+    return render_template('fil.html',some_text=text)
+
+# custom filters 
+@app.template_filter('reverse_string')
+def reverse_string(s):
+    return s[::-1]
+
+@app.template_filter('repate')
+def repate(s , times=2):
+    return s*times
+
+@app.template_filter('alternate_case')
+def alternate_case(s):
+    out = ''.join([c.upper() if i % 2 == 0 else c.lower() for i,c in enumerate(s)])
+    return out
+
 if __name__  == '__main__':
     app.run(host='127.0.0.1',port=9892,debug=True)
