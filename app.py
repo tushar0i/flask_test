@@ -1,6 +1,8 @@
 from flask import Flask , request , make_response , render_template , redirect ,url_for
+from flask_cors import CORS
 
 app = Flask(__name__,template_folder='templates')
+CORS(app)
 
 @app.route('/')
 def home():
@@ -125,5 +127,22 @@ def other():
 def redirect_endpoint():
     return redirect(url_for('other'))
 
+@app.route('/login',methods=['GET','POST'])
+def login():
+    if request.method == 'POST':
+        #do this
+        if 'email' and 'password' in request.form.keys(): 
+            email = request.form.get('email')
+            password = request.form['password']
+            if email == 'some@one.com' and password == 'someone':
+                return "SUCCESS"
+            else:
+                return "FAILURE"
+        else:
+            return 'INVALID FORM'
+    elif request.method == 'GET':
+        #do this 
+        return render_template('login.html')
+        
 if __name__  == '__main__':
     app.run(host='127.0.0.1',port=9892,debug=True)
