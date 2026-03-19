@@ -3,7 +3,7 @@ from werkzeug.utils import secure_filename
 from flask_cors import CORS
 import os 
 
-app = Flask(__name__,template_folder='templates')
+app = Flask(__name__,template_folder='templates', static_folder='static',static_url_path='/')
 CORS(app)
 
 # folder setup to store files 
@@ -182,6 +182,10 @@ def fileupload():
 @app.route('/viewfile/<filename>')
 def viewfile(filename):
     return render_template("viewfile.html",filename=filename)
+
+@app.route('/viewimage')
+def viewimage():
+    return render_template("viewimage.html")
 
 if __name__  == '__main__':
     app.run(host='127.0.0.1',port=9892,debug=True)
