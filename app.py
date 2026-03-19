@@ -1,9 +1,24 @@
 from flask import Flask , request , make_response , render_template , redirect ,url_for
+from werkzeug.utils import secure_filename
 from flask_cors import CORS
+import os 
 
 app = Flask(__name__,template_folder='templates')
 CORS(app)
 
+# folder setup to store files 
+
+app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(__file__),'static','uploads','pdf')
+app.config['MAX_CONTENT_LENGTH'] = 5*1024*1024 
+
+os.makedirs(app.config['UPLOAD_FOLDER'],exist_ok=True)
+
+ALLOWED_EXTENSIONS = {'pdf'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.',1)[1].lower() in ALLOWED_EXTENSIONS  
+
+# ----------------------------------------------------------------------------------------------
 @app.route('/')
 def home():
     return "<div> this is the thing </div>"
@@ -103,7 +118,7 @@ def index():
 @app.route('/filters')
 def filter():
     text = 'Hello Flask!'
-    return render_template('fil.html',some_text=text)
+    return render_template('filters.html',some_text=text)
 
 # custom filters 
 @app.template_filter('reverse_string')
@@ -143,6 +158,30 @@ def login():
     elif request.method == 'GET':
         #do this 
         return render_template('login.html')
-        
+
+
+@app.route('/fileupload',methods=['GET','POST'])
+def fileupload():
+    if request.method == 'GET':
+        return render_template('fileupload.html')
+    elif request.method == 'POST':
+
+        file = request.files['file']
+
+        if not file or file.filename == '':
+            return render_template('fileupload.html', error='No file selected') 
+
+        if file.content_type == "application/pdf" and allowed_file(file.filename):
+            filename = secure_filename(f'something_{file.filename}') # just for one file only 
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+            return redirect(url_for("viewfile",filename=filename))
+        else:
+            return render_template("fileupload.html", error='Only pdf file allowed')
+
+
+@app.route('/viewfile/<filename>')
+def viewfile(filename):
+    return render_template("viewfile.html",filename=filename)
+
 if __name__  == '__main__':
     app.run(host='127.0.0.1',port=9892,debug=True)

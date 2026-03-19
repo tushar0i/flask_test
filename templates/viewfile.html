@@ -1,0 +1,22 @@
+{%extends 'base.html' %}
+
+{%block title%}Viewfile-myapp{%endblock%}
+{%block content%}
+<div>
+    <h2>{{ filename }}</h2>
+
+    <iframe 
+        src="{{ url_for('static', filename='uploads/pdf/' + filename) }}"
+        width="100%" 
+        height="800px" 
+        style="border: none;">
+    </iframe>
+
+    <br>
+    <a href="{{ url_for('static', filename='uploads/pdf/' + filename) }}" download>
+        ⬇ Download PDF
+    </a>
+    |
+    <a href="{{ url_for('fileupload') }}">⬆ Upload Another</a>
+</div>
+{%endblock%}
