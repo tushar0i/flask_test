@@ -1,4 +1,4 @@
-from flask import Flask , request , make_response , render_template , redirect ,url_for
+from flask import Flask , request , make_response , render_template , redirect , url_for , session
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
 import os 
@@ -7,6 +7,7 @@ app = Flask(__name__,template_folder='templates', static_folder='static',static_
 CORS(app)
 
 # folder setup to store files 
+app.secret_key = 'ALLTHESTARS'
 
 app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(__file__),'static','uploads','pdf')
 app.config['MAX_CONTENT_LENGTH'] = 5*1024*1024 
@@ -186,6 +187,46 @@ def viewfile(filename):
 @app.route('/viewimage')
 def viewimage():
     return render_template("viewimage.html")
+
+
+# -------------------Session server side  -------------------- 
+
+
+@app.route('/sessiontest')
+def sessiontest():
+    return render_template('sessiontest.html', message='something')
+
+@app.route('/setdata')
+def setdata():
+    session['name'] = 'someone'
+    session['text'] = 'just a random thing I want to say'
+    session['temp'] = 'we will delete this later'
+    return render_template('sessiontest.html', message='session data set successfully' )
+
+@app.route('/getdata')
+def getdata():
+    if 'name' in session.keys() and 'text' in session.keys() and 'temp' in session.keys():
+        name = session['name']
+        text = session['text']
+        temp = session['temp']
+        return render_template('sessiontest.html',message=f'Name:{name} , Text:{text} , Temp:{temp}')
+    else:
+        return render_template('sessiontest.html', message=f'No session found')
+
+@app.route('/cleartempdata')
+def cleartemp():
+    if 'temp' in session.keys():
+        session.pop('temp')
+        return render_template('sessiontest.html',message=f'temp cleared')
+    else:
+        return render_template('sessiontest.html', message=f'No temp found')
+
+
+@app.route('/cleardata')
+def cleardata():
+    session.clear()
+    return render_template('sessiontest.html',message=f'session data cleared successfully')
+
 
 if __name__  == '__main__':
     app.run(host='127.0.0.1',port=9892,debug=True)

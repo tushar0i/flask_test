@@ -1,0 +1,17 @@
+{%extends 'base.html'%}
+
+{%block title%}session-myapp{%endblock%}
+
+{%block content%}
+<div>
+    <h2>SESSION - TEST</h2>
+    <p>{{ message }}</p>
+    <a href="{{url_for('setdata')}}">SET SESSION DATA</a>
+    <br>
+    <a href="{{url_for('getdata')}}">GET SESSION DATA</a>
+    <br>
+    <a href="{{url_for('cleartemp')}}">CLEAR TEMP</a>
+    <br>
+    <a href="{{url_for('cleardata')}}">CLEAR SESSION DATA</a>
+</div>
+{%endblock%}
