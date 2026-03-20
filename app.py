@@ -228,5 +228,42 @@ def cleardata():
     return render_template('sessiontest.html',message=f'session data cleared successfully')
 
 
+# ------------- Cookie client side ----------------
+
+@app.route('/cookietest')
+def cookietest():
+    return render_template('cookietest.html', message='something')
+
+@app.route('/setcookiedata')
+def setcookiedata():
+    response  = make_response(render_template('cookietest.html',message=f'Cookie data set'))
+    response.set_cookie('name','someone')
+    response.set_cookie('text','this is just some random text')
+    response.set_cookie('temp','this will be gone soon')
+    return response
+
+@app.route('/getcookiedata')
+def getcookiedata():
+    if 'name' in request.cookies.keys() and 'text' in request.cookies.keys() and 'temp' in request.cookies.keys():
+        name = request.cookies['name']
+        text = request.cookies['text']
+        temp = request.cookies['temp']
+        return render_template('cookietest.html',message=f'Name : {name} , Text : {text} , Temp : {temp}')
+    else:
+        return render_template('cookietest.html',message=f'No cookie found')
+
+@app.route('/cleartempcookie')
+def cleartempcookie():
+    response = make_response(render_template('cookietest.html',message=f'temp cookie removed'))
+    response.set_cookie('temp',expires=0)
+    return response
+
+@app.route('/clearcookiedata')
+def clearcookiedata():
+    response = make_response(render_template('cookietest.html',message=f'all cookie removed'))
+    for cookie in request.cookies:
+        response.delete_cookie(cookie)
+    return response
+
 if __name__  == '__main__':
     app.run(host='127.0.0.1',port=9892,debug=True)

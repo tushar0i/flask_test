@@ -1,0 +1,15 @@
+{%extends 'base.html'%}
+{%block title%}Cookie-myapp{%endblock%}
+{%block content%}
+<div>
+    <h2>COOKIE - TEST</h2>
+    <p>{{ message }}</p>
+    <a href="{{url_for('setcookiedata')}}">SET COOKIE DATA</a> 
+    <br> 
+    <a href="{{url_for('getcookiedata')}}">GET COOKIE DATA</a>
+    <br>
+    <a href="{{url_for('cleartempcookie')}}">CLEAR TEMP COOKIE</a>
+    <br>
+    <a href="{{url_for('clearcookiedata')}}">CLEAR ALL COOKIE</a>
+</div>
+{%endblock%}
