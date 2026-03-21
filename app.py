@@ -1,14 +1,27 @@
 from flask import Flask , request , make_response , render_template , redirect , url_for , session
 from werkzeug.utils import secure_filename
+from models import db , User
 from flask_cors import CORS
 import os 
 
 app = Flask(__name__,template_folder='templates', static_folder='static',static_url_path='/')
 CORS(app)
 
-# folder setup to store files 
-app.secret_key = 'ALLTHESTARS'
+# ------------------------------- database setup ---------------------------------------
 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+db.init_app(app)
+
+with  app.app_context():
+    db.create_all()
+
+# -----------------------------------------------------------------------------------------
+
+# -----------------------  folder setup to store files ------------------------------------
+
+app.secret_key = 'ALLTHESTARS'
 app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(__file__),'static','uploads','pdf')
 app.config['MAX_CONTENT_LENGTH'] = 5*1024*1024 
 
@@ -20,6 +33,7 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.',1)[1].lower() in ALLOWED_EXTENSIONS  
 
 # ----------------------------------------------------------------------------------------------
+
 @app.route('/')
 def home():
     return "<div> this is the thing </div>"
@@ -54,6 +68,8 @@ def handel_param3():
         return f'HI {name} your email is {email}'
     else:
         return 'some params are missing fix the code first'
+
+
 
 @app.route('/reqt', methods=['GET','[POST]','[DELETE]'])
 def some():
@@ -116,6 +132,12 @@ def index():
     itemlist = ['one','two','three','four','five','six']
     return render_template('index.html',name=myname ,balance=mybalance,items=itemlist)
 
+
+# ----------------------------------------------------------
+
+# --------------------- FILTERS -----------------------------
+
+
 @app.route('/filters')
 def filter():
     text = 'Hello Flask!'
@@ -134,6 +156,10 @@ def repate(s , times=2):
 def alternate_case(s):
     out = ''.join([c.upper() if i % 2 == 0 else c.lower() for i,c in enumerate(s)])
     return out
+
+# --------------------------------------------------------------------
+
+# -------------------------- something -------------------------------
 
 @app.route('/a_dynamic_url')
 def other():
@@ -160,6 +186,9 @@ def login():
         #do this 
         return render_template('login.html')
 
+# --------------------------------------------------------------------
+
+# -------------------------- FILE HANDELING---------------------------
 
 @app.route('/fileupload',methods=['GET','POST'])
 def fileupload():
@@ -187,6 +216,9 @@ def viewfile(filename):
 @app.route('/viewimage')
 def viewimage():
     return render_template("viewimage.html")
+
+
+# ------------------------------------------------------------
 
 
 # -------------------Session server side  -------------------- 
@@ -227,8 +259,10 @@ def cleardata():
     session.clear()
     return render_template('sessiontest.html',message=f'session data cleared successfully')
 
+# -----------------------------------------------------
 
-# ------------- Cookie client side ----------------
+
+# ----------------- Cookie client side ----------------
 
 @app.route('/cookietest')
 def cookietest():
@@ -264,6 +298,8 @@ def clearcookiedata():
     for cookie in request.cookies:
         response.delete_cookie(cookie)
     return response
+
+# ---------------------------------------------------------------------
 
 if __name__  == '__main__':
     app.run(host='127.0.0.1',port=9892,debug=True)
