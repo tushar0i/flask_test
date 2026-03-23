@@ -301,5 +301,16 @@ def clearcookiedata():
 
 # ---------------------------------------------------------------------
 
+# ------------------------- DB communication --------------------------
+
+@app.route('/users',methods=['GET','POST'])
+def users():
+    if request.method == 'GET':
+        user = User.query.all()
+        return render_template('users.html',user=user)
+    # elif request.method == 'POST':
+
+    #     return
+
 if __name__  == '__main__':
     app.run(host='127.0.0.1',port=9892,debug=True)

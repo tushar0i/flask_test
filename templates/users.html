@@ -1,0 +1,15 @@
+{%extends 'base.html'%}
+{%block title%}users{%endblock%}
+
+{%block content%}
+<div>
+    <h3>Existing users</h3>
+    <ul>
+        {% for person in user %}
+            <li>{{ person }}</li>
+        {% endfor %}
+    </ul>
+
+</div>
+{%endblock%}
+
