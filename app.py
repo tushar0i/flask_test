@@ -308,9 +308,18 @@ def users():
     if request.method == 'GET':
         user = User.query.all()
         return render_template('users.html',user=user)
-    # elif request.method == 'POST':
+    elif request.method == 'POST':
+        name = request.form['name']
+        age = int(request.form['age'])
+        about = request.form['about']
 
-    #     return
+        user = User(name=name , age=age , about=about )
+
+        db.session.add(user)
+
+        db.session.commit()
+        user = User.query.all()
+        return render_template('users.html',user=user)
 
 if __name__  == '__main__':
     app.run(host='127.0.0.1',port=9892,debug=True)
