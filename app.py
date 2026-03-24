@@ -316,6 +316,16 @@ def users():
         user = User(name=name , age=age , about=about )
 
         db.session.add(user)
+        db.session.commit()
+
+        user = User.query.all()
+
+        return render_template('users.html',user=user)
+    
+@app.route('/delete/<id>',methods=['DELETE'])
+def deleteuser(id):
+    if request.method == 'DELETE':
+        User.query.filter(User.id == id).delete()
 
         db.session.commit()
         user = User.query.all()
