@@ -331,5 +331,11 @@ def deleteuser(id):
         user = User.query.all()
         return render_template('users.html',user=user)
 
+@app.route('/details/<id>')
+def userdetails(id):
+    user = User.query.filter(User.id == id).first()
+
+    return render_template("userdetails.html",user=user)
+
 if __name__  == '__main__':
-    app.run(host='127.0.0.1',port=9892,debug=True)
+    app.run(host='0.0.0.0',debug=True)

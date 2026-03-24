@@ -6,7 +6,7 @@
     <h3>Existing users</h3>
     <ul>
         {% for person in user %}
-            <li>{{ person }} <button class="btn btn-danger" onclick="deletePerson({{ person.id }})">Delete</button></li>
+            <li>{{ person }} <button class="btn btn-danger" onclick="deletePerson({{ person.id }})">Delete</button><a href="{{ url_for('userdetails',id=person.id) }}">Details</a></li>
         {% endfor %}
     </ul>
 
@@ -29,11 +29,11 @@
         }).then(response => {
             if (response.ok){
                 window.location.reload()
-            }else{
+            }
+            else{
                 console.error('Failed to delete person with id: ' , id)
             }
-        })
-            .catch(error => {
+        }).catch(error => {
                 console.error('Error during fetching :', error )
             })
     }
